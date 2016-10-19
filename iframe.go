@@ -43,11 +43,19 @@ func (ifp *IframePlugin) GetPanelConfig() (*plugin.PanelConfig, error) {
 	return &plugin.PanelConfig{
 		Panels: []plugin.UIPanel{
 			{
-				Page:      plugin.TaskPage,
-				Position:  plugin.PageRight,
-				PanelHTML: template.HTML(`<div><h2>HELLOW WORLD</h2></div>`),
+				Page:     plugin.TaskPage,
+				Position: plugin.PageLeft,
+				PanelHTML: template.HTML(`
+				 <div ng-controller="IFrameCtrl" class="mci-pod ifplug"><div class="row"><div class="col-lg-12">
+				 <iframe ng-src="[[exampleIFrameUrl]]" onload='javascript:(function(o){o.style.height=o.contentWindow.document.body.scrollHeight+"px";}(this));' style="height:400px;width:100%;border:none;overflow:hidden;"></iframe>
+			     </div></div></div>`),
 				Includes: []template.HTML{
-					template.HTML(`<script type="text/javascript" src="/plugin/buildbaron/static/js/task_build_baron.js"></script>`),
+					template.HTML(`<script>
+mciModule.controller('IFrameCtrl',
+function ($http, $scope, $window, $sce) {  
+	$scope.exampleIFrameUrl = $sce.trustAsResourceUrl("http://example.com?" + $window.plugins.iframe.task);
+});
+					</script>`),
 				},
 				DataFunc: func(context plugin.UIContext) (interface{}, error) {
 					return struct {
