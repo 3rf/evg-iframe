@@ -1,24 +1,11 @@
 package iframe
 
 import (
-	"fmt"
-	"github.com/10gen-labs/slogger/v1"
-	"github.com/evergreen-ci/evergreen"
-	"github.com/evergreen-ci/evergreen/db"
-	"github.com/evergreen-ci/evergreen/db/bsonutil"
-	"github.com/evergreen-ci/evergreen/model/task"
 	"github.com/evergreen-ci/evergreen/plugin"
-	"github.com/evergreen-ci/evergreen/thirdparty"
-	"github.com/evergreen-ci/evergreen/util"
 	"github.com/gorilla/mux"
-	"github.com/mitchellh/mapstructure"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	//"github.com/mitchellh/mapstructure"
 	"html/template"
 	"net/http"
-	"regexp"
-	"strings"
-	"time"
 )
 
 func init() {
@@ -30,7 +17,7 @@ const (
 )
 
 type IframePlugin struct {
-	opts *ifpluginOptions
+	//TODO
 }
 
 func (ifp *IframePlugin) Name() string {
@@ -65,7 +52,7 @@ func (ifp *IframePlugin) GetPanelConfig() (*plugin.PanelConfig, error) {
 				DataFunc: func(context plugin.UIContext) (interface{}, error) {
 					return struct {
 						Task string `json:"task"`
-					}{plugin.UIContext.Task.Id}, nil
+					}{context.Task.Id}, nil
 				},
 			},
 		},
